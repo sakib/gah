@@ -34,7 +34,10 @@ socket.on('notifyUser', function(user){
 });
  
 socket.on('judging', function(who, what){
+    console.log('asdf');
     if(who != $('#user').val()){
+        $('.judge').removeClass('judge');
+        $('#user-' + who).addClass('judge');
         $('#botBut').children('input').prop('disabled', true);
     }
     $('#prompt').text(what);
@@ -45,36 +48,55 @@ socket.on('endJudge', function(who, what){
     if(who == "$$"){
         $('#botBut').children('input').prop('disabled', true);
         $('#start-round').prop('disabled', false);
-    }else if(who != $('#user').val()){
-        $('#user-' + who).addClass('judge');
     }else{
-        $('#submissions').addClass('hidden');
-        $('#gifs').removeClass('hidden');
-        $('#botBut').children('input').prop('disabled', false);
-        $('#start-round').prop('disabled', true);
+        $.get(
+        "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC",
+        function(data){
+            var $img = $('.chosen-gif').first();
+            $img.removeClass('chosen-gif');
+            $img = $img.children('img').first();
+            $img.attr('src', data.data.image_url);
+
+            var request = new XMLHttpRequest();
+            request.onload = function() {
+            $img.attr('title', JSON.parse(request.responseText).description.captions[0].text);
+            }
+            request.open(method, url, async);
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.setRequestHeader("Ocp-Apim-Subscription-Key", "f65844446d6b4116b20a69c99fd652d4");
+            request.send("{'url':'" + data.data.image_url + "'}");
+      });
+        $('#user-' + who).addClass('judge');
     }
     $('#prompt').text(what);
 });
 
+socket.on('submit', function(who, what){
+    if($('#botBut').children('input').filter(function(){ return $(this).prop('disabled');}).length == 3) return;
+
+    console.log("j");
+    var $temp = $('<div class="subs-container col-md-1">');
+    var $img = $('<img>');
+    $img.attr('src', what);
+    $img.attr('data-who', who);
+    $temp.append($img);
+    $temp.click(function(){
+        $('#submissions').addClass('hidden');
+        $('#gifs').removeClass('hidden');
+        $('#botBut').children('input').prop('disabled', true);
+        socket.emit('endJudge', $(this).children('img').first().attr('data-who'));
+    })
+    $('#submissions').append($temp);
+    $('#gifs').addClass('hidden');
+    $('#submissions').removeClass('hidden');
+
+});
+
 socket.on('endSub', function(who, what){
     console.log("IFN " + what);
-    if($('#botBut').children('input').filter(function(){$(this).prop('disabled')}).length == 3){
+    if($('#botBut').children('input').filter(function(){return $(this).prop('disabled');}).length == 3){
         console.log('Not j');
-        socket.emit('endSub', $('#user').val(), $('.chosen-gif').first().children('img').first().attr('src'));
-    }else if(what != undefined){
-        console.log("j");
-        var $temp = $('<div class="subs-container col-md-1">');
-        var $img = $('<img>');
-        $img.attr('src', what);
-        $img.attr('data-who', who);
-        $temp.append($img);
-        $temp.click(function(){
-            socket.emit('endJudge', $(this).children('img').first().attr('data-who'));
-            
-        })
-        $('#submissions').append($temp);
-        $('#gifs').addClass('hidden');
-        $('#submissions').removeClass('hidden');
+        socket.emit('submit', $('#user').val(), $('.chosen-gif').first().children('img').first().attr('src'));
     }
 });
 
@@ -90,6 +112,7 @@ socket.on('joinNotice', function(user, message){
         $inner.text(usr);
         $outer.addClass('col-md-1');
         $outer.addClass('player');
+        $outer.attr('id', 'user-' + usr);
         $outer.append($inner);
         $('#players-container').append($outer);
     }

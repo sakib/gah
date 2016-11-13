@@ -69,6 +69,10 @@ io.on('connection', function(socket){
         });
     });
 
+    socket.on('submit', function(from, m){
+        io.emit('submit', from, m);
+    })
+
   socket.on('chatMessage', function(from, msg){
     io.emit('chatMessage', from, msg);
   });
