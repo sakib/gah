@@ -35,9 +35,9 @@ socket.on('notifyUser', function(user){
  
 socket.on('judging', function(who, what){
     console.log('asdf');
+    $('.judge').removeClass('judge');
+    $('#user-' + who).addClass('judge');
     if(who != $('#user').val()){
-        $('.judge').removeClass('judge');
-        $('#user-' + who).addClass('judge');
         $('#botBut').children('input').prop('disabled', true);
     }
     $('#prompt').text(what);
@@ -110,12 +110,13 @@ socket.on('joinNotice', function(user, message){
     var usrs = JSON.parse(message);
     $('#players-container').empty();
     for(var usr in usrs){
-        if(usr.length <= 0 || usr == me) continue;
+        if(usr.length <= 0) continue;
         var $outer = $('<div>');
         var $inner = $('<div>');
         $inner.text(usr);
         $outer.addClass('col-md-1');
         $outer.addClass('player');
+        if(usr == me) $outer.addClass('me');
         $outer.attr('id', 'user-' + usr);
         $outer.append($inner);
         $('#players-container').append($outer);

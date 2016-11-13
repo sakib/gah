@@ -69,7 +69,11 @@ body { font: 13px Helvetica, Arial; }
 }
 
 .judge{
-    color:red;
+    background-color:red;
+}
+
+.me{
+    border: 3px solid black;
 }
 
 .cool-button:disabled {
