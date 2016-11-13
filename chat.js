@@ -1,6 +1,7 @@
 var url = "https://api.projectoxford.ai/vision/v1.0/describe?maxCandidates=1";
 var method = "POST";
 var async = true;
+var audio = new Audio('trumpet.wav');
 
 var socket = io();
 function submitfunction(){
@@ -134,6 +135,7 @@ $(document).ready(function(){
         $(this).prop('disabled', true);
         $('#start-judging').prop('disabled', false);
         $('#reset-round').prop('disabled', false);
+        audio.play();
         socket.emit('judging', $('#user').val());
     });
 
@@ -143,6 +145,7 @@ $(document).ready(function(){
         $('#reset-round').prop('disabled', true);
         if(!ip){
             ip = true;
+            audio.play();
             socket.emit('endSub', $('#user').val());
         }
     });
@@ -152,6 +155,7 @@ $(document).ready(function(){
         $(this).prop('disabled', true);
         $('#start-round').prop('disabled', false);
         $('#start-judging').prop('disabled', true);
+        audio.play();
         socket.emit('endJudge', '$$');
     });
 
