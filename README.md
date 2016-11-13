@@ -1,7 +1,7 @@
 ## GIFs Against Humanity
 Cards Against Humanity, but with GIFs! Built at HackPrinceton Fall 2016.
 
-![alt text](http://i.imgur.com/ta05yUe.jpg "Don't you dare hover over me")
+![ayy lmao](http://i.imgur.com/A1bkSVA.png "Don't you dare hover over me")
 
 ## Description
 
