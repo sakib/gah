@@ -85,6 +85,10 @@ body { font: 13px Helvetica, Arial; }
     border: 3px solid black;
 }
 
+.me > div::before{
+    content: "You: ";
+}
+
 .cool-button:disabled {
     background: gray;
 }
