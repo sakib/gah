@@ -2,16 +2,39 @@
   <html>
    <head>
     <title>Chat Application</title>
-    <link rel='stylesheet' href='style.css' type='text/css'/>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='style.css' type='text/css'/>
     <script src="chat.js"></script>
   </head>
   <body> 
-    <ul id="messages"></ul>
-    <span id="notifyUser"></span>
-    <form id="form" action="" onsubmit="return submitfunction();" > 
-      <input type="hidden" id="user" value="" /><input id="m" autocomplete="off" onkeyup="notifyTyping();" placeholder="Type yor message here.." /><input type="submit" id="button" value="Send"/> 
-    </form>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="col-md-8">
+                    <div class="row-fluid players-container">
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                        <div class="col-md-1 text-center player"><div>Somebody</div></div>
+                    </div>
+                </div>
+            <div class="col-md-4">
+                <div id="messages"></div>
+                <span id="notifyUser"></span>
+                <form id="form" action="" onsubmit="return submitfunction();" > 
+                    <input type="hidden" id="user" value="" />
+                    <input id="m" autocomplete="off" onkeyup="notifyTyping();" placeholder="Type your message here..." />
+                    <input type="submit" id="button" value="Send"/> 
+                </form>
+            </div>
+        </div>
+        <div class="row-fluid" id="gifs"></div>
+    </div>
   </body>
 </html>

@@ -18,7 +18,7 @@ socket.on('chatMessage', function(from, msg){
   var me = $('#user').val();
   var color = (from == me) ? 'green' : '#009afd';
   var from = (from == me) ? 'Me' : from;
-  $('#messages').append('<li><b style="color:' + color + '">' + from + '</b>: ' + msg + '</li>');
+  $('#messages').append('<div class="row"><b style="color:' + color + '">' + from + '</b>: ' + msg + '</div>');
 });
  
 socket.on('notifyUser', function(user){
@@ -31,7 +31,21 @@ socket.on('notifyUser', function(user){
  
 $(document).ready(function(){
   var name = makeid();
+  $('#messages').css({height: 450});
   $('#user').val(name);
+
+  for(var i = 0; i < 6; i++){
+    $.get(
+            "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC",
+            function(data){
+                var $temp = $('<div class="gif-container col-md-1">');
+                var $img = $('<img>');
+                $img.attr('src', data.data.image_url);
+                $temp.append($img);
+                $('#gifs').append($temp);
+            });
+  }
+
   socket.emit('chatMessage', 'System', '<b>' + name + '</b> has joined the discussion');
 });
  
