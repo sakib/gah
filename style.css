@@ -83,3 +83,13 @@ body { font: 13px Helvetica, Arial; }
 .hidden{
     display: none;
 }
+
+#prompt{
+    font-size:25px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#prompt::before{
+    content: "Prompt: ";
+}
