@@ -10,13 +10,26 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname, '../gah', 'index.html'));
 });
  
+var usrs = {};
 // Register events on socket connection
 io.on('connection', function(socket){ 
+
+
   socket.on('chatMessage', function(from, msg){
     io.emit('chatMessage', from, msg);
   });
   socket.on('notifyUser', function(user){
     io.emit('notifyUser', user);
+  });
+  socket.on('joinNotice', function(usr){
+    usrs[usr] = true;
+    io.emit('chatMessage', 'System', '<em>' + usr + ' has joined chat.</em>');
+    io.emit('joinNotice', usr, JSON.stringify(usrs));
+  });
+  socket.on('goodBye', function(usr){
+    delete usrs[usr];
+    io.emit('chatMessage', 'System', '<em>' + usr + ' has left.</em>');
+    io.emit('joinNotice', usr, JSON.stringify(usrs));
   });
 });
  

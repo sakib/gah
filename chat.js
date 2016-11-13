@@ -29,7 +29,28 @@ socket.on('notifyUser', function(user){
   setTimeout(function(){ $('#notifyUser').text(''); }, 10000);;
 });
  
+socket.on('joinNotice', function(user, message){
+    if(message == undefined) return;
+    var me = $('#user').val();
+    var usrs = JSON.parse(message);
+    $('#players-container').empty();
+    for(var usr in usrs){
+        if(usr.length <= 0 || usr == me) continue;
+        var $outer = $('<div>');
+        var $inner = $('<div>');
+        $inner.text(usr);
+        $outer.addClass('col-md-1');
+        $outer.addClass('player');
+        $outer.append($inner);
+        $('#players-container').append($outer);
+    }
+});
+
 $(document).ready(function(){
+    $(window).on('unload', function(){
+        socket.emit('goodBye', $('#user').val());
+    });
+
   var name = makeid();
   $('#messages').css({height: 450});
   $('#user').val(name);
@@ -46,7 +67,7 @@ $(document).ready(function(){
             });
   }
 
-  socket.emit('chatMessage', 'System', '<b>' + name + '</b> has joined the discussion');
+  socket.emit('joinNotice', name);
 });
  
 function makeid() {
