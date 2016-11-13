@@ -1,3 +1,10 @@
+var kittens = function(){
+    var x = 200 + Math.floor(Math.random()*75);
+    var y = 200 + Math.floor(Math.random()*75);
+    var g = ['/g', ''][((100*Math.random()) % 2 == 0)? 0 : 1];
+    return 'url(https://placekitten.com' + g + '/' + x + '/' + y;
+}
+
 var url = "https://api.projectoxford.ai/vision/v1.0/describe?maxCandidates=1";
 var method = "POST";
 var async = true;
@@ -41,7 +48,7 @@ socket.on('judging', function(who, what){
     if(who != $('#user').val()){
         $('#botBut').children('input').prop('disabled', true);
     }
-    $('#prompt').text(what);
+    $('#prompt').text("Prompt: " + what);
 });
 
 socket.on('endJudge', function(who, what){
@@ -70,10 +77,10 @@ socket.on('endJudge', function(who, what){
         if(who == $("#user").val()){
             $('#botBut').children('input').prop('disabled', false);
             $('#start-round').prop('disabled', true);
-        }else
+        }
             $('#user-' + who).addClass('judge');
     }
-    $('#prompt').text(what);
+    $('#prompt').text("Prompt: " + what);
 });
 
 socket.on('submit', function(who, what){
@@ -86,6 +93,7 @@ socket.on('submit', function(who, what){
     $img.attr('data-who', who);
     $temp.append($img);
     $temp.click(function(){
+        $('#submissions').empty();
         $('#submissions').addClass('hidden');
         $('#gifs').removeClass('hidden');
         $('#botBut').children('input').prop('disabled', true);
@@ -117,6 +125,7 @@ socket.on('joinNotice', function(user, message){
         $inner.text(usr);
         $outer.addClass('col-md-1');
         $outer.addClass('player');
+        $outer.css("background-image", kittens());
         if(usr == me) $outer.addClass('me');
         $outer.attr('id', 'user-' + usr);
         $outer.append($inner);
@@ -160,7 +169,7 @@ $(document).ready(function(){
     });
 
   var name = makeid();
-  $('#messages').css({height: 450});
+  $('#messages').css({height: 475});
   $('#user').val(name);
 
   for(var i = 0; i < 6; i++){

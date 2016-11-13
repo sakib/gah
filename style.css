@@ -17,18 +17,20 @@ body { font: 13px Helvetica, Arial; }
 #messages { 
     list-style-type: none; 
     margin: 0;
-    padding: 0;
+    padding: 5px;
     height: 75px;
     /* display: inline-block; */
     width: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 #messages div { padding: 5px 10px; }
 #messages div:nth-child(odd) { background: #eee; }
 #notifyUser { position: fixed; bottom: 42px; width: 100%; }
 
 .player{
-    background-color:blue;
+    background-color: blue;
+    color: yellow;
     border-radius: 50%;
     width: 200px;
     height: 200px;
@@ -36,6 +38,8 @@ body { font: 13px Helvetica, Arial; }
 
 .player > div{
     position: absolute;
+    opacity: 33%;
+    background-color:blue;
     top: 50%;
 
 }
@@ -68,8 +72,13 @@ body { font: 13px Helvetica, Arial; }
     height: 130px;
 }
 
-.judge{
-    background-color:red;
+/* .judge{ */
+/*     background-color:red; */
+/*     transform: rotate(90deg); */
+/* } */
+
+.judge > div::after{
+ content: ": the judge!";
 }
 
 .me{
@@ -88,8 +97,4 @@ body { font: 13px Helvetica, Arial; }
     font-size:25px;
     text-align: center;
     font-weight: bold;
-}
-
-#prompt::before{
-    content: "Prompt: ";
 }
