@@ -66,7 +66,11 @@ socket.on('endJudge', function(who, what){
             request.setRequestHeader("Ocp-Apim-Subscription-Key", "f65844446d6b4116b20a69c99fd652d4");
             request.send("{'url':'" + data.data.image_url + "'}");
       });
-        $('#user-' + who).addClass('judge');
+        if(who == $("#user").val()){
+            $('#botBut').children('input').prop('disabled', false);
+            $('#start-round').prop('disabled', true);
+        }else
+            $('#user-' + who).addClass('judge');
     }
     $('#prompt').text(what);
 });
