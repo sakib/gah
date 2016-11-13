@@ -1,4 +1,8 @@
-var socket = io(); 
+var url = "https://api.projectoxford.ai/vision/v1.0/describe?maxCandidates=1";
+var method = "POST";
+var async = true;
+
+var socket = io();
 function submitfunction(){
   var from = $('#user').val();
   var message = $('#m').val();
@@ -47,9 +51,9 @@ socket.on('joinNotice', function(user, message){
 });
 
 $(document).ready(function(){
-    $(window).on('unload', function(){
-        socket.emit('goodBye', $('#user').val());
-    });
+  $(window).on('unload', function(){
+    socket.emit('goodBye', $('#user').val());
+  });
 
   var name = makeid();
   $('#messages').css({height: 450});
@@ -57,14 +61,24 @@ $(document).ready(function(){
 
   for(var i = 0; i < 6; i++){
     $.get(
-            "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC",
-            function(data){
-                var $temp = $('<div class="gif-container col-md-1">');
-                var $img = $('<img>');
-                $img.attr('src', data.data.image_url);
-                $temp.append($img);
-                $('#gifs').append($temp);
-            });
+      "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC",
+      function(data){
+        var $temp = $('<div class="gif-container col-md-1">');
+        var $img = $('<img>');
+        $img.attr('src', data.data.image_url);
+
+        var request = new XMLHttpRequest();
+        request.open(method, url, async);
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        request.setRequestHeader("Ocp-Apim-Subscription-Key", "f65844446d6b4116b20a69c99fd652d4");
+        request.onload = function() {
+          $img.attr('title', JSON.parse(request.responseText).description.captions[0].text);
+        }
+        request.send("{'url':'" + data.data.image_url + "'}");
+        
+        $temp.append($img);
+        $('#gifs').append($temp);
+      });
   }
 
   socket.emit('joinNotice', name);
