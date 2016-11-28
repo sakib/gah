@@ -11,7 +11,7 @@ Uses Microsoft Computer Vision API to title each GIF - just hover over your hand
 
 Uses NodeJS and Socket.io to manage group membership through multicast event messaging between clients and the server.
 
-We apologize for the cruddy front end design, but this was all new to us :( Also front end sucks
+Front end design to be improved!
 
 Built by [me](http://sakib.github.io/), [Heman](https://github.com/hemangandhi) and [Aditya](https://github.com/xplustwo)
 
