@@ -28,3 +28,5 @@ node index.js
 ```
 
 The server should be running on [localhost:3000](http://localhost:3000/).
+
+![great game](https://i.imgur.com/N2dNfan.jpg "great game try it out 10/10")
